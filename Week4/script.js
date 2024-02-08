@@ -21,7 +21,7 @@ const canvas = document.querySelector('.webgl')
 
 // Scene
 const scene = new THREE.Scene()
-scene.background = new THREE.Color('gray')
+scene.background = new THREE.Color('#2F3E46')
 
 // Camera
 const camera = new THREE.PerspectiveCamera(
@@ -49,7 +49,7 @@ controls.enableDamping = true
 // plane
 const planeGeometry = new THREE.PlaneGeometry(10, 10, 50, 50)
 const planeMaterial = new THREE.MeshBasicMaterial({
-    color: new THREE.Color ('white'), 
+    color: new THREE.Color ('#84A98C'), 
     side: THREE.DoubleSide,
     wireframe: true
 })
@@ -60,7 +60,9 @@ scene.add(plane)
 
 // testSphere
 const geometry = new THREE.SphereGeometry(1)
-const material = new THREE.MeshNormalMaterial
+const material = new THREE.MeshBasicMaterial({
+    color: new THREE.Color ('#76A398')
+})
 const testSphere = new THREE.Mesh(geometry, material)
 
 scene.add(testSphere)
@@ -88,8 +90,8 @@ const sphereFolder = ui.addFolder('Sphere')
 
 sphereFolder
     .add(testSphere.position, 'y')
-    .min(-5)
-    .max(5)
+    .min(-10)
+    .max(10)
     .step(0.1)
     .name('Height')
 
@@ -111,7 +113,7 @@ const animation = () =>
     // Animate Sphere
     if(uiObject.play)
     {
-        testSphere.position.y = Math.sin(elapsedTime * 0.5) * 2
+        testSphere.position.y = Math.sin(elapsedTime * 2) * 10
     }
 
     // Controls

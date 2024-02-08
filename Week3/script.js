@@ -8,7 +8,7 @@ const canvas = document.querySelector('.webgl')
 
 // Scene
 const scene = new THREE.Scene()
-scene.background = new THREE.Color('gray')
+scene.background = new THREE.Color('#2F3E46')
 
 // Camera
 const camera = new THREE.PerspectiveCamera(
@@ -32,7 +32,9 @@ renderer.setSize(window.innerWidth, window.innerHeight)
 
 //testSphere
 const sphereGeometry = new THREE.SphereGeometry(1)
-const sphereMaterial = new THREE.MeshNormalMaterial()
+const sphereMaterial = new THREE.MeshBasicMaterial({
+    color: new THREE.Color ('#76A398')
+})
 const testSphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
 
 //different cases
