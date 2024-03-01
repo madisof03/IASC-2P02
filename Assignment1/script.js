@@ -77,15 +77,27 @@ caveFloor.position.set (0, -2.5, 0)
 scene.add(caveFloor)
 
 // OBJECTS
-// torusKnot
-const torusKnotGeometry = new THREE.TorusKnotGeometry(1, 0.2)
-const torusKnotMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#76A398')
+// coneSquare
+const coneSquareGeometry = new THREE.ConeGeometry(2, 2, 4)
+const coneSquareMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color('#2F3E46')
 })
-const torusKnot = new THREE.Mesh(torusKnotGeometry, torusKnotMaterial)
-torusKnot.position.set(6, 1.5, 0)
-torusKnot.castShadow = true
-scene.add(torusKnot)
+var coneSquare = new THREE.Mesh(coneSquareGeometry, coneSquareMaterial)
+coneSquare.position.set(5, 1.5, -2.5)
+//cone.rotation.x = Math.PI * -1.9
+coneSquare.castShadow = true
+scene.add(coneSquare)
+
+// coneCircle
+const coneCircleGeometry = new THREE.ConeGeometry(2, 2, 30)
+const coneCircleMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color('#2F3E46')
+})
+var coneCircle = new THREE.Mesh(coneCircleGeometry, coneCircleMaterial)
+coneCircle.position.set(5, 1.5, 2.5)
+//cone.rotation.x = Math.PI * -1.9
+coneCircle.castShadow = true
+scene.add(coneCircle)
 
 /*************
  ** LIGHTS **
@@ -173,6 +185,7 @@ const domObject = {
     secondChange: false,
     thirdChange: false,
     fourthChange: false,
+    fifthChange: false,
 }
 
 // continue-reading
@@ -193,6 +206,7 @@ document.querySelector('#restart').onclick = function() {
     domObject.secondChange = false
     domObject.thirdChange = false
     domObject.fourthChange = false
+    domObject.fifthChange = false
 
     // reset directional light
     directionalLight.position.set (10, 2, 0)
@@ -216,6 +230,11 @@ document.querySelector('#third-change').onclick = function() {
 // fourth change
 document.querySelector('#fourth-change').onclick = function() {
     domObject.fourthChange = true
+}
+
+// fifth change
+document.querySelector('#fifth-change').onclick = function() {
+    domObject.fifthChange = true
 }
 
 /*********************
@@ -257,23 +276,34 @@ const animation = () =>
 
     // first-change
     if(domObject.firstChange) {
-        torusKnot.rotation.y = elapsedTime
-        torusKnot.rotation.z = elapsedTime
+        coneSquare.rotation.z = 0.15
+        coneCircle.rotation.z = 0.2
     }
 
     // second-change
     if(domObject.secondChange) {
-        torusKnot.position.y = Math.sin(elapsedTime * 0.5) * 6
+        coneSquare.rotation.z = 1.5
+        coneCircle.rotation.z = 1.5
     }
 
     // third-change
     if(domObject.thirdChange) {
-        torusKnot.position.y = 2
+        coneSquare.rotation.z = elapsedTime 
+        coneCircle.rotation.z = elapsedTime 
     }
 
     // fourth-change
     if(domObject.fourthChange) {
-        directionalLight.position.y -= elapsedTime * 0.005
+        coneSquare.rotation.z = 1.5
+        coneCircle.rotation.z = 1.5 
+    }
+
+    if(domObject.fifthChange) {
+        var newConeGeometry = new THREE.ConeGeometry(2, 2, 4)
+        coneCircle.geometry = newConeGeometry;
+        var newSquareGeometry = new THREE.ConeGeometry(2, 2, 32)
+        coneSquare.geometry = newSquareGeometry;
+   
     }
 
     // Renderer
