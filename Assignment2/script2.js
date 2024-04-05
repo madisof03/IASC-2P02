@@ -1,3 +1,4 @@
+
 import * as THREE from "three"
 import * as dat from "lil-gui"
 import { OrbitControls } from "OrbitControls"
@@ -16,7 +17,7 @@ const sizes = {
 ** SCENE **
 ***********/
 // Canvas
-const canvas = document.querySelector('.webgl')
+const canvas = document.querySelector('.webgl2')
 
 // Scene
 const scene = new THREE.Scene()
@@ -53,32 +54,34 @@ scene.add(directionalLight)
 /***********
 ** MESHES **
 ************/
-// Cube Geometry
-const cubeGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5)
+// Sphere Geometry
+const sphereGeometry = new THREE.SphereGeometry(0.5)
 
-// Cube Materials
-const redMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#DA95A1')
+// Sphere Materials
+const orangeMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color('#DB9D47')
 })
-const greenMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#9FBCA4')
+const pinkMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color('#FF784F')
 })
-const blueMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#76A398')
+const aquaMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color('#9AC2C5')
 })
 
-const drawCube = (i, material) =>
+const drawSphere = (i, material) =>
 {
-    const cube = new THREE.Mesh(cubeGeometry, material)
-    cube.position.x = (Math.random() - 0.5) * 10
-    cube.position.z = (Math.random() - 0.5) * 10
-    cube.position.y = i - 10
+    const sphere = new THREE.Mesh(sphereGeometry, material)
+    sphere.position.x = (Math.random() - 0.5) * 10
+    sphere.position.z = (Math.random() - 0.5) * 10
+    sphere.position.y = i - 10
 
-    cube.rotation.x = Math.random() * 2 * Math.PI
-    cube.rotation.y = Math.random() * 2 * Math.PI
-    cube.rotation.z = Math.random() * 2 * Math.PI
+    sphere.rotation.x = Math.random() * 2 * Math.PI
+    sphere.rotation.y = Math.random() * 2 * Math.PI
+    sphere.rotation.z = Math.random() * 2 * Math.PI
 
-    scene.add(cube)
+    sphere.randomizer = Math.random()
+
+    scene.add(sphere)
 }
 
 
@@ -90,10 +93,11 @@ let preset = {}
 const uiobj = {
     text: '',
     textArray: [],
-    term1: 'tapping',
-    term2: 'Raven',
-    term3: 'nevermore',
-    rotateCamera: false
+    term1: 'seraphim',
+    term2: 'pallas',
+    term3: 'pluto',
+    rotateCamera: false,
+    animateBubbles: false
 }
 
 // Text Parsers
@@ -102,18 +106,20 @@ const parseTextandTerms = () =>
 {
     // Strip periods and downcase text
     const parsedText = uiobj.text.replaceAll(".", "").toLowerCase()
+    //console.log(parsedText)
 
     // Tokenize text
     uiobj.textArray = parsedText.split(/[^\w']+/)
+    //console.log(uiobj.textArray)
 
     // Find term 1
-    findTermInParsedText(uiobj.term1, redMaterial)
+    findTermInParsedText(uiobj.term1, orangeMaterial)
 
     // Find term 2
-    findTermInParsedText(uiobj.term2, greenMaterial)
+    findTermInParsedText(uiobj.term2, pinkMaterial)
 
     // Find term 3
-    findTermInParsedText(uiobj.term3, blueMaterial)
+    findTermInParsedText(uiobj.term3, aquaMaterial)
 
 }
 
@@ -128,10 +134,10 @@ const findTermInParsedText = (term, material) =>
          // convert i into n, which is a value between 0 and 20
          const n = (100 / uiobj.textArray.length) * i * 0.2
          
-         // call drawCube function 5 times using converted n value
+         // call drawsphere function 5 times using converted n value
          for(let a=0; a < 5; a++)
          {
-            drawCube(n, material)
+            drawSphere(n, material)
          }
 
         }
@@ -139,7 +145,7 @@ const findTermInParsedText = (term, material) =>
 }
 
 // Load source text
-fetch("https://www.gutenberg.org/cache/epub/1065/pg1065.txt")
+fetch("https://madisof03.github.io/IASC-2P02/Assignment%202/assets/pg1065.txt")
     .then(response => response.text())
     .then((data) =>
     {
@@ -150,24 +156,28 @@ fetch("https://www.gutenberg.org/cache/epub/1065/pg1065.txt")
 
 // UI
 const ui = new dat.GUI({
-    container: document.querySelector('#parent1')
+    container: document.querySelector('#parent2')
 })
 
 // Interaction Folders
-    // Cubes Folder
-    const cubesFolder = ui.addFolder('Filter Terms')
+    // spheres Folder
+    const spheresFolder = ui.addFolder('Filter Terms')
 
-    cubesFolder
-        .add(redMaterial, 'visible')
+    spheresFolder
+        .add(orangeMaterial, 'visible')
         .name(`${uiobj.term1}`)
 
-    cubesFolder
-        .add(greenMaterial, 'visible')
+    spheresFolder
+        .add(pinkMaterial, 'visible')
         .name(`${uiobj.term2}`)
 
-    cubesFolder
-        .add(blueMaterial, 'visible')
+    spheresFolder
+        .add(aquaMaterial, 'visible')
         .name(`${uiobj.term3}`)
+
+    spheresFolder
+        .add(uiobj, 'animateBubbles')
+        .name('Animate Bubbles')
 
     // Camera Folder
     const cameraFolder = ui.addFolder('Camera')
@@ -180,6 +190,7 @@ const ui = new dat.GUI({
 ** ANIMATION LOOP **
 ********************/
 const clock = new THREE.Clock()
+console.log(scene.children)
 
 // Animate
 const animation = () =>
@@ -195,6 +206,19 @@ const animation = () =>
     {
         camera.position.x = Math.sin(elapsedTime * 0.2) * 16
         camera.position.z = Math.cos(elapsedTime * 0.2) * 16
+    }
+
+    // Animate Bubbles
+    if(uiobj.animateBubbles){
+        for(let i=0; i < scene.children.length; i++)
+        {
+            if(scene.children[i].type === "Mesh")
+            {
+                scene.children[i].scale.x = Math.sin(elapsedTime * scene.children[i].randomizer)
+                scene.children[i].scale.y = Math.sin(elapsedTime * scene.children[i].randomizer)
+                scene.children[i].scale.z = Math.sin(elapsedTime * scene.children[i].randomizer)
+            }
+        }
     }
 
     // Renderer
