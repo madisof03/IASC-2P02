@@ -95,7 +95,7 @@ const uiobj = {
     textArray: [],
     term1: 'seraphim',
     term2: 'pallas',
-    term3: 'pluto',
+    term3: 'plutonian',
     rotateCamera: false,
     animateBubbles: false
 }
@@ -145,7 +145,7 @@ const findTermInParsedText = (term, material) =>
 }
 
 // Load source text
-fetch("https://madisof03.github.io/IASC-2P02/Assignment%202/assets/pg1065.txt")
+fetch("https://raw.githubusercontent.com/madisof03/IASC-2P02/main/Assignment2/assets/pg1065.txt")
     .then(response => response.text())
     .then((data) =>
     {

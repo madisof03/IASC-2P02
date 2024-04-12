@@ -64,7 +64,7 @@ const greenMaterial = new THREE.MeshStandardMaterial({
     color: new THREE.Color('#9FBCA4')
 })
 const blueMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#76A398')
+    color: new THREE.Color('#419292')
 })
 
 const drawCube = (i, material) =>
@@ -139,7 +139,7 @@ const findTermInParsedText = (term, material) =>
 }
 
 // Load source text
-fetch("https://madisof03.github.io/IASC-2P02/Assignment%202/assets/pg1065.txt")
+fetch("https://raw.githubusercontent.com/madisof03/IASC-2P02/main/Assignment2/assets/pg1065.txt")
     .then(response => response.text())
     .then((data) =>
     {

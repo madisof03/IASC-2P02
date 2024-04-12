@@ -3,11 +3,12 @@ body {
     margin: 0 auto;
     width: 80%;
     font-family: "Montserrat", sans-serif;
-    background-color: #CAD2C5;
+    background-color: #dfe4db;
 }
 
 p {
-    font-size: 16px;
+    font-size: 20px;
+    margin: 20px;
 }
 
 /* Headers */
@@ -54,7 +55,7 @@ ul > li {
 }
 
 #blue {
-    color: #76A398;
+    color: #419292;
 }
 
 /* UI */
@@ -79,7 +80,7 @@ ul > li {
 }
 
 #lil-gui-name-3  {
-    color: #76A398;
+    color: #419292;
 }
 
 #lil-gui-name-5 {
